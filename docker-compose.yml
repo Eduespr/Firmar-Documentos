@@ -1,4 +1,16 @@
 services:
+  db:
+    image: postgres:16
+    container_name: firmar_documentos_db
+    environment:
+      POSTGRES_DB: firmar_documentos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   web:
     build: .
     container_name: firmar_documentos_web
@@ -7,5 +19,15 @@ services:
     volumes:
       - .:/app
     environment:
-      - DEBUG=True
-      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+      DEBUG: "True"
+      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
+      POSTGRES_DB: firmar_documentos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
