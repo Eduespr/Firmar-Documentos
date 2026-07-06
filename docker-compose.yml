@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    container_name: firmar_documentos_web
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DEBUG=True
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
